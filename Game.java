@@ -1,4 +1,8 @@
-//package assignment4Game;
+
+/*
+Created by: GREG WOO
+Program: Simulate a game of Connect4
+*/
 
 import java.io.*;
 
@@ -34,7 +38,8 @@ public class Game {
 	}
 
 	public static int getNextMove(BufferedReader keyboard, Configuration c, int player){
-		// ADD YOUR CODE HERE
+
+		c.print();
 
 		// We want to ask for the move until the move provided has space
 		// if so then we add the player to the position on the board
@@ -48,22 +53,17 @@ public class Game {
 			while(didWeAdd == false) {
 
 				int columnChosen = Integer.parseInt(keyboard.readLine());
-				System.out.println("YOU CHOSE COLUMN " + columnChosen);
 
 				if(columnChosen > 6 || columnChosen < 0) {
 
 					System.out.println("COLUMN INPUTED IS NOT VALID");
-					//didWeAdd = true;
 
 				} else if (c.available[columnChosen] < 6) {
 
-					c.addDisk(columnChosen,player);
 					didWeAdd = true;
-					System.out.println("DISK ADDED");
 					return columnChosen;
 
 				}
-
 			}
 		} catch (Exception e) {
 
@@ -71,7 +71,7 @@ public class Game {
 
 		}
 
-		return -1; // DON'T FORGET TO CHANGE THE RETURN
+		return -1;
 	}
 
 	public static int firstMovePlayer1 (){
@@ -79,11 +79,10 @@ public class Game {
 	}
 
 	public static int movePlayer1 (int columnPlayed2, Configuration c){
-		// ADD YOUR CODE HERE
 
 		// First we want to know who is the int that represents the ai player
 		int playerAI = 0;
-		int playerHUMAN = c.board[columnPlayed2][c.available[columnPlayed2-1]];
+		int playerHUMAN = c.board[columnPlayed2][(c.available[columnPlayed2] - 1)];
 
 		for (int i = 0; i < 7; i++){
 			for (int j = 0; j < 6; j++){
@@ -97,32 +96,25 @@ public class Game {
 		}
 
 		int nextMove = c.canWinNextRound(playerAI);
-		System.out.println("1 TURN WIN " + nextMove);
 		// If bot as a winning move he plays it
 		if(nextMove >= 0 && nextMove <= 6) {
 
-			// c.addDisk(nextMove, playerAI);
 			return nextMove;
 
 		}
 
 		//if there is a move that can make him win in 2 rounds he plays it
 		nextMove = c.canWinTwoTurns(playerAI);
-		System.out.println("2 TURN WIN " + nextMove);
 
 		if(nextMove >= 0 && nextMove <= 6) {
 
-			// c.addDisk(nextMove, playerAI);
 			return nextMove;
 
 		} else {
 			// if none of these are available, he puts his disk above the other player
-			// 5 4 6  3 2 1 0
 
 			if(c.available[columnPlayed2] <= 5) {
 
-				System.out.println("AVAILABLE LEFT " + c.available[columnPlayed2]);
-				System.out.println("IM IN BABY " + columnPlayed2);
 				return columnPlayed2;
 
 			} else {
@@ -139,8 +131,8 @@ public class Game {
 							return nextColumnLeft;
 
 						}
-
-					} else if (nextColumnRight >= 0 && nextColumnRight <= 6) {
+					}
+					 if (nextColumnRight >= 0 && nextColumnRight <= 6) {
 
 						if(c.available[nextColumnRight] <= 5) {
 
@@ -151,11 +143,8 @@ public class Game {
 				}
 			}
 
-
 		}
-			return -1; // DON'T FORGET TO CHANGE THE RETURN
-
-
+			return -1;
 	}
 
 	}
